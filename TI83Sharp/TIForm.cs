@@ -7,6 +7,8 @@ namespace TI83Sharp;
 
 public partial class TIForm : Form
 {
+    public const string WINDOW_TITLE = "TI83Sharp";
+
     private const float ORIGINAL_FONT_SIZE = 17f;
 
     private static readonly Vector2 s_originalScreenPos = new Vector2(65, 99);
@@ -30,7 +32,7 @@ public partial class TIForm : Form
     {
         InitializeComponent();
 
-        Text = "TI83Sharp";
+        Text = WINDOW_TITLE;
         Size = new Size(500, 1000);
         MinimumSize = Size / 2;
 
@@ -80,23 +82,43 @@ public partial class TIForm : Form
 
     private async void Interpret(string content)
     {
-        var screen = new TiHomeScreen();
-        screen.Change += (sender, e) => _screen = e.Screen;
+        await Task.Run(() =>
+        {
+            var screen = new TiHomeScreen();
+            screen.Change += (sender, e) => _screen = e.Screen;
 
-        var output = new TiScreenOutput(screen);
-        var input = new TiScreenInput();
-        KeyDown += (sender, e) => input.OnKeyPressed(e.KeyCode);
+            var output = new TiScreenOutput(screen);
+            var input = new TiScreenInput();
+            KeyDown += (sender, e) => input.OnKeyPressed(e.KeyCode);
 
-        var scanner = new Scanner(output, content);
+            try
+            {
+                var scanner = new Scanner(output, content);
 
-        var tokens = new List<Token>();
-        scanner.ScanTokens(tokens);
+                var tokens = new List<Token>();
+                scanner.ScanTokens(tokens);
 
-        var parser = new Parser(tokens);
-        var statements = parser.Parse();
+                var parser = new Parser(tokens);
+                var statements = parser.Parse();
 
-        var interpreter = new Interpreter(output, input);
-        await Task.Run(() => interpreter.Interpret(statements));
+                var interpreter = new Interpreter(output, input);
+                interpreter.Interpret(statements);
+            }
+            catch (Exception err)
+            {
+                if (err is SyntaxError || err is RuntimeError)
+                {
+                    foreach (var line in err.Message.Split('\n'))
+                    {
+                        output.Message(line);
+                    }
+                }
+                else
+                {
+                    ShowErrorDialog(err.Message, -1);
+                }
+            }
+        });
     }
 
     private void OnResize(object? sender, EventArgs e)
@@ -224,5 +246,11 @@ public partial class TIForm : Form
         s_fontCollection.AddMemoryFont(fontPtr, fontData.Length);
         Marshal.FreeCoTaskMem(fontPtr);
         return new Font(s_fontCollection.Families[0], emSize);
+    }
+
+    public static void ShowErrorDialog(string message, int exitCode)
+    {
+        MessageBox.Show(message, $"{WINDOW_TITLE}: Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        System.Environment.Exit(exitCode);
     }
 }

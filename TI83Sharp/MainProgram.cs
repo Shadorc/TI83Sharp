@@ -1,4 +1,5 @@
 ﻿using CommandLine;
+using CommandLine.Text;
 
 namespace TI83Sharp;
 
@@ -13,47 +14,48 @@ public static class MainProgram
         public string? ScriptText { get; set; }
     }
 
-    private readonly static ConsoleOutput s_defaultLogger = new ConsoleOutput();
-
     [STAThread]
     public static void Main(string[] args)
     {
         ApplicationConfiguration.Initialize();
 
-        CommandLine.Parser.Default.ParseArguments<Options>(args)
+        var parseResult = CommandLine.Parser.Default.ParseArguments<Options>(args);
+        parseResult
             .WithParsed(RunOptions)
-            .WithNotParsed(HandleParseError);
+            .WithNotParsed(_ => DisplayHelp(parseResult));
     }
 
-    private static void HandleParseError(IEnumerable<CommandLine.Error> errors)
+    private static void DisplayHelp<T>(ParserResult<T> result)
     {
-        foreach (var error in errors)
+        var helpText = HelpText.AutoBuild(result, h =>
         {
-            s_defaultLogger.Error(error.ToString()!);
-        }
-        System.Environment.Exit(-1);
+            h.AdditionalNewLineAfterOption = false;
+            h.Heading = TIForm.WINDOW_TITLE;
+            h.Copyright = string.Empty;
+            h.AutoVersion = false;
+            return h;
+        });
+        TIForm.ShowErrorDialog(helpText, -1);
     }
 
     private static void RunOptions(Options opts)
     {
-        if (opts.ScriptText != null)
+        if (!string.IsNullOrWhiteSpace(opts.ScriptText))
         {
             Execute(opts.ScriptText);
         }
-        else if (opts.ScriptFile != null)
+        else if (!string.IsNullOrWhiteSpace(opts.ScriptFile))
         {
             string scriptFile = opts.ScriptFile;
             if (!File.Exists(scriptFile))
             {
-                s_defaultLogger.Error($"'{scriptFile}' does not exist");
-                System.Environment.Exit(-1);
+                TIForm.ShowErrorDialog($"File '{scriptFile}' does not exist", -1);
                 return;
             }
 
             if (Path.GetExtension(scriptFile) != ".bas")
             {
-                s_defaultLogger.Error($"'{scriptFile}' format is not supported, expected .bas extension");
-                System.Environment.Exit(-1);
+                TIForm.ShowErrorDialog($"File '{scriptFile}' format is not supported, expected .bas extension", -1);
                 return;
             }
 
@@ -61,8 +63,7 @@ public static class MainProgram
         }
         else
         {
-            s_defaultLogger.Error($"'{nameof(Options.ScriptText)}' or '{nameof(Options.ScriptFile)}' args must be specified");
-            System.Environment.Exit(-1);
+            TIForm.ShowErrorDialog($"Either '-{nameof(Options.ScriptText).ToLower()}' or '-{nameof(Options.ScriptFile).ToLower()}' must be specified and non empty", -1);
         }
     }
 
