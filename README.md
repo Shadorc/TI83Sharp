@@ -7,6 +7,15 @@ I built this interpreter because I had some old TI-BASIC scripts sitting on my c
 > [!NOTE]  
 > This interpreter does not replicate the original calculator's execution timing.
 
+## Usage
+
+```shell
+.\TI83Sharp.exe --scripttext ":5(2^4-6)/3"
+.\TI83Sharp.exe --scriptfile "program.bas"
+```
+
+![Example Image](https://i.imgur.com/30zqFpA.png)
+
 ## Functionalities
 
 ### Variables
