@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Globalization;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace TI83Sharp;
 
@@ -43,10 +44,38 @@ public class Scanner
         return reservedChars;
     }
 
+    private static string NormalizeSource(string source)
+    {
+        var delvarRegex = new Regex(@"DelVar ([θA-Z])(?!:)", RegexOptions.Compiled);
+
+        // Normalize line endings to LF     
+        source = source.Replace("\r\n", "\n");
+        // Add colon after DelVar command if absent because this is the only chainable command
+        source = delvarRegex.Replace(source, "DelVar $1:");
+
+        var normalizedSource = new StringBuilder();
+        var normalizedLine = new StringBuilder();
+
+        foreach (var line in source.Split('\n'))
+        {
+            normalizedLine.Clear();
+            normalizedLine.Append(line.TrimStart());
+
+            // Add colons to the beginning of the line if not present
+            if (normalizedLine.Length == 0 || normalizedLine[0] != ':')
+            {
+                normalizedLine.Insert(0, ':');
+            }
+
+            normalizedSource.AppendLine(normalizedLine.ToString());
+        }
+        return normalizedSource.ToString();
+    }
+
     public Scanner(IOutput output, string source)
     {
         _output = output;
-        _source = source;
+        _source = NormalizeSource(source);
         _tokens = new List<Token>();
 
         _pos = 0;
