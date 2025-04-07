@@ -2,11 +2,11 @@
 
 public class SyntaxError : Error
 {
-    public SyntaxError(string message, int line) : base($"{message}\n[line {line}]")
+    public SyntaxError(string description, int line) : base($"ERR:SYNTAX\n{description}\n[line {line}]")
     {
     }
 
-    public SyntaxError(Token token) : this("ERR:SYNTAX", token.Line)
+    public SyntaxError(string description, Token token) : this(description, token.Line)
     {
     }
 }

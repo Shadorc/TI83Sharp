@@ -25,6 +25,11 @@ public class Parser
         return statements;
     }
 
+    private SyntaxError Error(string message)
+    {
+        return new SyntaxError(message, Peek());
+    }
+
     private Block Block(params TokenType[] tokenTypes)
     {
         var statements = new List<Stmt>();
@@ -212,7 +217,7 @@ public class Parser
             {
                 if (FunctionCall() is not FunctionCall functionCall)
                 {
-                    throw new SyntaxError(Peek());
+                    throw Error("Expected function");
                 }
 
                 return new FunctionAssign(expr, functionCall);
@@ -496,7 +501,7 @@ public class Parser
             return LiteralMatrix();
         }
 
-        throw new SyntaxError(Peek());
+        throw Error("Unknown primary");
     }
 
     private LiteralList LiteralList()
@@ -504,7 +509,7 @@ public class Parser
         if (Check(TokenType.RightCurlyBracket))
         {
             // Empty list not allowed
-            throw new SyntaxError(Peek());
+            throw Error("List cannot be empty");
         }
 
         var items = new List<Expr>();
@@ -526,7 +531,7 @@ public class Parser
         if (Check(TokenType.RightSquareBracket))
         {
             // Empty matrix not allowed
-            throw new SyntaxError(Peek());
+            throw Error("Matrix cannot be empty");
         }
 
         Consume(TokenType.LeftSquareBracket);
@@ -588,7 +593,7 @@ public class Parser
             }
         }
 
-        throw new SyntaxError(Peek());
+        throw Error($"Expected '{string.Join<TokenType>(",", tokenTypes)}'");
     }
 
     private Token Advance()

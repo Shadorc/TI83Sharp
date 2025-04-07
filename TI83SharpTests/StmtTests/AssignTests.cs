@@ -143,21 +143,21 @@ public class AssignTests
         public void TestList_ErrNameTooLong()
         {
             var source = ":{1,2,3}→∟ABCDEF";
-            AssertInterpretThrows<SyntaxError>(source, "List name '∟ABCDEF' must be between one and five characters.\n[line 1]");
+            AssertInterpretThrows<SyntaxError>(source, "ERR:SYNTAX\nList name '∟ABCDEF' must be between one and five characters.\n[line 1]");
         }
 
         [TestMethod]
         public void TestList_ErrNameTooShort()
         {
             var source = ":{1,2,3}→∟";
-            AssertInterpretThrows<SyntaxError>(source, "List name '∟' must be between one and five characters.\n[line 1]");
+            AssertInterpretThrows<SyntaxError>(source, "ERR:SYNTAX\nList name '∟' must be between one and five characters.\n[line 1]");
         }
 
         [TestMethod]
         public void TestList_ErrNameStartsWithNumber()
         {
             var source = ":{1,2,3}→∟123";
-            AssertInterpretThrows<SyntaxError>(source, "List name '∟123' must start with a letter or theta.\n[line 1]");
+            AssertInterpretThrows<SyntaxError>(source, "ERR:SYNTAX\nList name '∟123' must start with a letter or theta.\n[line 1]");
         }
 
         [TestMethod]
