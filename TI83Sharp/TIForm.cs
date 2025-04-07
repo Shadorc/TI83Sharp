@@ -115,7 +115,7 @@ public partial class TIForm : Form
                 }
                 else
                 {
-                    ShowErrorDialog(err.Message, -1);
+                    ShowErrorBeforeExit(err.Message);
                 }
             }
         });
@@ -248,9 +248,9 @@ public partial class TIForm : Form
         return new Font(s_fontCollection.Families[0], emSize);
     }
 
-    public static void ShowErrorDialog(string message, int exitCode)
+    public static void ShowErrorBeforeExit(string message)
     {
         MessageBox.Show(message, $"{WINDOW_TITLE}: Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-        System.Environment.Exit(exitCode);
+        System.Environment.Exit(-1);
     }
 }

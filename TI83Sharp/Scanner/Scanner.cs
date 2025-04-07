@@ -68,7 +68,7 @@ public class Scanner
             ScanToken();
         }
 
-        AddToken(TokenType.Eof, EOF_CHAR.ToString());
+        AddToken(TokenType.Eof);
 
         tokens.AddRange(_tokens);
     }
@@ -100,7 +100,7 @@ public class Scanner
         else if (TokenType.TryGet(TokenTypeCategory.SingleChar, _currentChar.ToString(), out var singleCharTokenType))
         {
             Advance();
-            AddToken(singleCharTokenType, singleCharTokenType.Lexeme);
+            AddToken(singleCharTokenType);
         }
         else
         {
@@ -108,9 +108,9 @@ public class Scanner
         }
     }
 
-    private void AddToken(TokenType type, string lexeme, object? literal = null)
+    private void AddToken(TokenType type, string? lexeme = null, object? literal = null)
     {
-        _tokens.Add(new Token(type, lexeme, literal, _line));
+        _tokens.Add(new Token(type, lexeme ?? type.Lexeme, literal, _line));
     }
 
     private char Peek(int offset = 1)
@@ -225,7 +225,9 @@ public class Scanner
             strBuilder.Append(_currentChar);
             Advance();
         }
-        AddToken(TokenType.MatrixId, strBuilder.ToString());
+
+        var lexeme = strBuilder.ToString();
+        AddToken(TokenType.MatrixId, lexeme);
     }
 
     private void ID()
@@ -347,7 +349,7 @@ public class Scanner
             AddToken(TokenType.NumberId, c.ToString());
             if (i + 1 < lexeme.Length)
             {
-                AddToken(TokenType.Mult, "*");
+                AddToken(TokenType.Mult);
             }
         }
     }

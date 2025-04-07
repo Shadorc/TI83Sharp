@@ -35,7 +35,7 @@ public static class MainProgram
             h.AutoVersion = false;
             return h;
         });
-        TIForm.ShowErrorDialog(helpText, -1);
+        TIForm.ShowErrorBeforeExit(helpText);
     }
 
     private static void RunOptions(Options opts)
@@ -49,13 +49,13 @@ public static class MainProgram
             string scriptFile = opts.ScriptFile;
             if (!File.Exists(scriptFile))
             {
-                TIForm.ShowErrorDialog($"File '{scriptFile}' does not exist", -1);
+                TIForm.ShowErrorBeforeExit($"File '{scriptFile}' does not exist");
                 return;
             }
 
             if (Path.GetExtension(scriptFile) != ".bas")
             {
-                TIForm.ShowErrorDialog($"File '{scriptFile}' format is not supported, expected .bas extension", -1);
+                TIForm.ShowErrorBeforeExit($"File '{scriptFile}' format is not supported, expected .bas extension");
                 return;
             }
 
@@ -63,7 +63,7 @@ public static class MainProgram
         }
         else
         {
-            TIForm.ShowErrorDialog($"Either '-{nameof(Options.ScriptText).ToLower()}' or '-{nameof(Options.ScriptFile).ToLower()}' must be specified and non empty", -1);
+            TIForm.ShowErrorBeforeExit($"Either '-{nameof(Options.ScriptText).ToLower()}' or '-{nameof(Options.ScriptFile).ToLower()}' must be specified and non empty");
         }
     }
 
