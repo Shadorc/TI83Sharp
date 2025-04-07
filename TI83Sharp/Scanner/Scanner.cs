@@ -46,7 +46,7 @@ public class Scanner
 
     private static string NormalizeSource(string source)
     {
-        var delvarRegex = new Regex(@"DelVar ([θA-Z])(?!:)", RegexOptions.Compiled);
+        var delvarRegex = new Regex(@"DelVar ([θA-Z])(?!:)(?!\s*\n\s*:)", RegexOptions.Compiled);
 
         // Normalize line endings to LF     
         source = source.Replace("\r\n", "\n");
