@@ -15,4 +15,5 @@ public interface IStmtVisitor
     void VisitRepeat(Repeat repeatStmt);
     void VisitWhile(While whileStmt);
     void VisitMatrixElementAssign(MatrixElementAssign matrixElementAssign);
+    void VisitNoop(Noop noop);
 }

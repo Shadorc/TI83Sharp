@@ -354,6 +354,11 @@ public class Interpreter : IExprVisitor<object>, IStmtVisitor
     #endregion
 
     #region Stmt
+    public void VisitNoop(Noop noop)
+    {
+        // Do nothing
+    }
+
     public void VisitBlock(Block block)
     {
         foreach (var statement in block.Statements)

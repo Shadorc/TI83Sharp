@@ -56,7 +56,11 @@ public class Parser
     {
         Consume(TokenType.Colon);
 
-        if (TryConsume(TokenType.Lbl))
+        if (Check(TokenType.Colon) || Check(TokenType.Eof))
+        {
+            return new Noop();
+        }
+        else if (TryConsume(TokenType.Lbl))
         {
             var name = Consume(TokenType.LblName);
             return new Lbl(name.Lexeme);

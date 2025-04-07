@@ -31,4 +31,14 @@ public class ExprTests
         Interpret(source, out _, out var environment);
         Assert.AreEqual((TiNumber)5, environment.Get<TiNumber>("C"));
     }
+
+    [TestMethod]
+    public void TestExpr_Noop()
+    {
+        var source =
+            @"
+            :
+            ";
+        Interpret(source, out _, out var environment);
+    }
 }
