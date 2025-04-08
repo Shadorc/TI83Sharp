@@ -39,6 +39,7 @@ Currently not supported:
 | **Matrices**     | `dim(`, `Fill(`, `augment(`, `cumSum(`                                                   |
 | **List**         | `dim(`, `Fill(`, `augment(`, `cumSum(`, `ClrList`, `ClrAllLists`, `SortA(`, `SortD(`, `seq(`, `ΔList(`, `min(`, `max(`, `sum(` |
 | **Number**       | `abs(`, `round(`, `iPart(`, `fPart(`, `int(`, `min(`, `max(`                              |
+| **String**       | `sub(`, `inString(`                                                                      |
 | **Probability**  | `rand`, `randInt(`                                                                       |
 | **Math**         | `cos(`, `cos⁻¹(`, `cosh(`, `cosh⁻¹(`, `sin(`, `sinh(`, `sin⁻¹(`, `sinh⁻¹(`, `tan(`, `tan⁻¹(`, `tanh(`, `tanh⁻¹(`, `ln(`, `log(`, `√(`, `³√(` |
 
