@@ -51,4 +51,6 @@ Currently not supported:
     - Used to get hardware and software specs
 - [TI 84 Calculator Online](https://ti84calc.com/ti84calc)
     - Used to compare my interpreter with a complete emulator
+- [ti84programs](https://github.com/nineteendo/ti84programs) by [@nineteendo](nineteendo)
+    - Used to test with real programs
 - [Manual Book](https://www.manualslib.com/manual/325936/Texas-Instruments-Ti-83.html#manual)
