@@ -326,7 +326,7 @@ public class Scanner
             return;
         }
 
-        throw Error($"Unknown identifier '{lexeme}'");
+        throw Error(lexeme);
     }
 
     // TODO: Custom lists that do not need LIST_NAME_START
