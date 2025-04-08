@@ -22,10 +22,12 @@ I built this interpreter because I had some old TI-BASIC scripts sitting on my c
 Numbers, strings, lists and matrices are supported and have all their native operations implemented.
 
 ### Optimizations
-I’ve tried to preserve the optimizations available on the original calculator. For example, allowing closing quotes, brackets, or parentheses to be omitted when they appear at the end of a line or just before a store token.
+I’ve tried to preserve the optimizations available on the original calculator:
+- Closing quotes, brackets, or parentheses can be omitted when they appear at the end of a line or just before a store token
+- DelVar commands can be used without separating them with a colon
 
-It is missing the ability to chain DelVar commands without separating them with a colon, as well as the ability to omit the starting character of custom list names in certain scenarios. This is why not all tests are successful, as they account for these cases.
-
+Currently not supported:
+- Possibility to omit the starting character of custom list names in certain scenarios
 
 ### Tokens
 | **Category**     | **Token**                                                                 |
