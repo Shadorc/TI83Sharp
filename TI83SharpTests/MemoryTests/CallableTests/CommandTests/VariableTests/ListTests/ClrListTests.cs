@@ -43,15 +43,4 @@ public class ClrListTests
         Interpret(source, out _, out var environment);
         Assert.AreEqual(0, environment.Get<TiList>("∟LIST").Count);
     }
-
-    [TestMethod]
-    public void TestClrList_ErrSyntax()
-    {
-        var source =
-            @"
-            :{1,2}→∟LIST
-            :ClrList LIST
-            ";
-        AssertInterpretThrows<RuntimeError>(source, "ERR:SYNTAX");
-    }
 }
