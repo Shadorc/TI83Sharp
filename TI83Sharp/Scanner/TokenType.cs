@@ -23,6 +23,7 @@ public class TokenType
     public static TokenType Pow { get; } = new TokenType(TokenTypeCategory.SingleChar, "^");
     public static TokenType Square { get; } = new TokenType(TokenTypeCategory.SingleChar, "²");
     public static TokenType Cube { get; } = new TokenType(TokenTypeCategory.SingleChar, "³");
+    public static TokenType TenPower { get; } = new TokenType(TokenTypeCategory.SingleChar, "ᴇ");
     public static TokenType Equal { get; } = new TokenType(TokenTypeCategory.SingleChar, "=");
     public static TokenType NotEqual { get; } = new TokenType(TokenTypeCategory.SingleChar, "≠");
     public static TokenType Greater { get; } = new TokenType(TokenTypeCategory.SingleChar, ">");

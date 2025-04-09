@@ -338,7 +338,7 @@ public class Parser
                 var right = Unary();
                 expr = new Binary(expr, op, right);
             }
-            else if (IsImplicitMult(Peek(-1), Peek()))
+            else if (IsImplicitMult(Peek(-1), Peek()) || Check(TokenType.TenPower))
             {
                 var right = Unary();
                 expr = new Binary(expr, new Token(TokenType.Mult), right);
@@ -498,6 +498,11 @@ public class Parser
         else if (TryConsume(TokenType.LeftSquareBracket))
         {
             return LiteralMatrix();
+        }
+        else if (TryConsume(TokenType.TenPower))
+        {
+            var right = Unary();
+            return new Binary(new Literal((TiNumber)10), new Token(TokenType.Pow), right);
         }
 
         throw Error("Unknown primary");
