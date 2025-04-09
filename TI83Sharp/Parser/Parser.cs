@@ -352,15 +352,28 @@ public class Parser
         return expr;
     }
 
-    private static bool IsImplicitMult(Token previousToken, Token currentToken)
+    private static bool IsImplicitMult(Token leftToken, Token rightToken)
     {
-        // Example conditions for implicit multiplication:
-        // - A number followed by a variable or a left parenthesis
-        // - A right parenthesis followed by a number, variable, or a left parenthesis
-        // - A variable followed by a left parenthesis
-        return (previousToken.Type == TokenType.Number && (currentToken.Type == TokenType.NumberId || currentToken.Type == TokenType.LeftParentheses)) ||
-            (previousToken.Type == TokenType.RightParentheses && (currentToken.Type == TokenType.Number || currentToken.Type == TokenType.NumberId || currentToken.Type == TokenType.LeftParentheses)) ||
-            (previousToken.Type == TokenType.NumberId && currentToken.Type == TokenType.LeftParentheses);
+        if (leftToken.Type == TokenType.Number)
+        {
+            // '5A', '5(', '5Ans'
+            return rightToken.Type == TokenType.NumberId
+                || rightToken.Type == TokenType.LeftParentheses
+                || rightToken.Lexeme == Environment.ANS_NAME;
+        }
+
+        if (leftToken.Type == TokenType.RightParentheses || leftToken.Type == TokenType.NumberId || leftToken.Lexeme == Environment.ANS_NAME)
+        {
+            // ')5', ')A', ')(', ')Ans'
+            // 'A5', 'AB', 'A(', 'AAns'
+            // 'Ans5', 'AnsA', 'Ans(', 'AnsAns'
+            return rightToken.Type == TokenType.Number
+                || rightToken.Type == TokenType.NumberId
+                || rightToken.Type == TokenType.LeftParentheses
+                || rightToken.Lexeme == Environment.ANS_NAME;
+        }
+
+        return false;
     }
 
     private Expr Unary()

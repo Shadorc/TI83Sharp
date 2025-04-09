@@ -7,7 +7,7 @@ namespace TI83SharpTests;
 public class ExprTests
 {
     [TestMethod]
-    public void TestExpr_ImplicitMultiplication()
+    public void TestExpr_ImplicitMult_Const()
     {
         var source = ":2(5-3)";
         Interpret(source, out var logger, out _);
@@ -15,7 +15,7 @@ public class ExprTests
     }
 
     [TestMethod]
-    public void TestExpr_ImplicitMultiplicationVar()
+    public void TestExpr_ImplicitMult_Var()
     {
         var source =
             @"
@@ -26,10 +26,20 @@ public class ExprTests
              ";
         Interpret(source, out var logger, out _);
         Assert.AreEqual("7", logger.MessageOutput);
+
+        source =
+            @"
+            :2→A   
+            :5→B   
+            :3→C   
+            :A(B-C)
+             ";
+        Interpret(source, out logger, out _);
+        Assert.AreEqual("4", logger.MessageOutput);
     }
 
     [TestMethod]
-    public void TestExpr_ImplicitMultiplicationVarAns()
+    public void TestExpr_ImplicitMult_VarAns()
     {
         var source =
             @"
@@ -40,6 +50,16 @@ public class ExprTests
              ";
         Interpret(source, out var logger, out _);
         Assert.AreEqual("7", logger.MessageOutput);
+
+        source =
+            @"
+            :2→A   
+            :3→C   
+            :5→D
+            :Ans(A-C)
+             ";
+        Interpret(source, out logger, out _);
+        Assert.AreEqual("-5", logger.MessageOutput);
     }
 
     [TestMethod]

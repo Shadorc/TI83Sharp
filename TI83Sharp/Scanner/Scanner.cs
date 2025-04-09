@@ -304,9 +304,8 @@ public class Scanner
             return;
         }
 
-        if (TryGetImplicitVarMult(lexeme, out var variables))
+        if (TryParseImplicitVarMult(lexeme))
         {
-            ImplicitVarMult(variables);
             return;
         }
 
@@ -359,21 +358,30 @@ public class Scanner
         }
     }
 
-    private static bool TryGetImplicitVarMult(string lexeme, out List<string> variables)
+    private bool TryParseImplicitVarMult(string lexeme)
     {
         // Check if the lexeme is a multiplication of several number IDs (e.g. AB for A*B or AnsC for Ans*C)
         var match = Regex.Match(lexeme, @"(Ans|[A-Zθ])+");
 
-        variables = new List<string>();
-        if (match.Success && match.Value == lexeme)
+        if (!match.Success || match.Value != lexeme)
         {
-            foreach (Capture capture in match.Groups[1].Captures)
+            return false;
+        }
+
+        foreach (Capture capture in match.Groups[1].Captures)
+        {
+            string value = capture.Value;
+            if (value == Environment.ANS_NAME)
             {
-                variables.Add(capture.Value);
+                AddToken(TokenType.FunctionId, value);
+            }
+            else
+            {
+                AddToken(TokenType.NumberId, value);
             }
         }
 
-        return variables.Count > 0;
+        return true;
     }
 
     private void ImplicitVarMult(List<string> variables)
