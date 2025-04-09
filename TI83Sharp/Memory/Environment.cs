@@ -21,7 +21,7 @@ public class Environment
     public static readonly List<string> ListIDs = new List<string> { "L₁", "L₂", "L₃", "L₄", "L₅", "L₆" };
     public static readonly List<char> MatrixIDs = "ABCDEFGHIJ".ToList();
 
-    private static readonly List<Callable> Callables = CreateCallables();
+    public static readonly List<Callable> Callables = CreateCallables();
     public static readonly List<string> CommandNames = GetNames<Command>();
     public static readonly List<string> FunctionNames = GetNames<Function>();
 

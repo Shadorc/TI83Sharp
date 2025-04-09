@@ -15,7 +15,11 @@ public class Length : Function
             throw RuntimeError.DataType;
         }
 
-        // TODO: The length is measured in the number of tokens, and not the number of letters in the string
+        // The length is measured in the number of tokens, and not the number of letters in the string
+        foreach (var callable in Environment.Callables)
+        {
+            str = str.Replace(callable.Name, "$" /*Could be any char*/);
+        }
 
         return (TiNumber)str.Length;
     }
