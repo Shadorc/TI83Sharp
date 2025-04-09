@@ -39,6 +39,18 @@ public class ExprTests
             @"
             :
             ";
+        Interpret(source, out _, out _);
+    }
+
+    [TestMethod]
+    public void TestExpr_MinusSign()
+    {
+        var source =
+            @"
+            :1→C
+            :−C→B  
+            ";
         Interpret(source, out _, out var environment);
+        Assert.AreEqual((TiNumber)(-1), environment.Get<TiNumber>("B"));
     }
 }
