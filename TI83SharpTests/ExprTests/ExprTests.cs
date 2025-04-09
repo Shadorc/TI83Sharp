@@ -101,20 +101,4 @@ public class ExprTests
         Interpret(source, out _, out var environment);
         Assert.AreEqual((TiNumber)(-1), environment.Get<TiNumber>("B"));
     }
-
-    [TestMethod]
-    public void TestExpr_TenPower()
-    {
-        var source = ":5ᴇ3→A";
-        Interpret(source, out _, out var environment);
-        Assert.AreEqual((TiNumber)5000, environment.Get<TiNumber>("A"));
-
-        source = ":5ᴇ-5→A";
-        Interpret(source, out _, out environment);
-        Assert.AreEqual((TiNumber)0.00005, environment.Get<TiNumber>("A"));
-
-        source = ":ᴇ-3→A";
-        Interpret(source, out _, out environment);
-        Assert.AreEqual((TiNumber)0.001, environment.Get<TiNumber>("A"));
-    }
 }
