@@ -114,7 +114,7 @@ public class Scanner
             LblName();
         }
         // Valid numbers: '5' '5.2' '.2'
-        else if (char.IsNumber(_currentChar) || _currentChar == DECIMAL_SEP && char.IsNumber(Peek()))
+        else if (char.IsBetween(_currentChar, '0', '9') || _currentChar == DECIMAL_SEP && char.IsBetween(Peek(), '0', '9'))
         {
             Number();
         }
@@ -193,7 +193,7 @@ public class Scanner
     private void Number()
     {
         var lexemeBuilder = new StringBuilder();
-        while (char.IsNumber(_currentChar))
+        while (char.IsBetween(_currentChar, '0', '9'))
         {
             lexemeBuilder.Append(_currentChar);
             Advance();
@@ -210,7 +210,7 @@ public class Scanner
             lexemeBuilder.Append(DECIMAL_SEP);
             Advance();
 
-            while (char.IsNumber(_currentChar))
+            while (char.IsBetween(_currentChar, '0', '9'))
             {
                 lexemeBuilder.Append(_currentChar);
                 Advance();
@@ -350,7 +350,7 @@ public class Scanner
 
         for (int i = startNameIdx + 1; i < lexeme.Length; i++)
         {
-            if (!Environment.NumberIDs.Contains(lexeme[startNameIdx]) && !char.IsNumber(lexeme[i]))
+            if (!Environment.NumberIDs.Contains(lexeme[startNameIdx]) && !char.IsBetween(lexeme[i], '0', '9'))
             {
                 throw Error($"List name '{lexeme}' must be comprised of any combination of capital letters and numbers and theta.");
             }
