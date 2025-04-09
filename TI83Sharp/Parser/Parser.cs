@@ -341,7 +341,7 @@ public class Parser
             else if (IsImplicitMult(Peek(-1), Peek()))
             {
                 var right = Unary();
-                expr = new Binary(expr, new Token(TokenType.Mult, "*"), right);
+                expr = new Binary(expr, new Token(TokenType.Mult), right);
             }
             else
             {
@@ -354,26 +354,12 @@ public class Parser
 
     private static bool IsImplicitMult(Token leftToken, Token rightToken)
     {
-        if (leftToken.Type == TokenType.Number)
-        {
-            // '5A', '5(', '5Ans'
-            return rightToken.Type == TokenType.NumberId
-                || rightToken.Type == TokenType.LeftParentheses
-                || rightToken.Lexeme == Environment.ANS_NAME;
-        }
-
-        if (leftToken.Type == TokenType.RightParentheses || leftToken.Type == TokenType.NumberId || leftToken.Lexeme == Environment.ANS_NAME)
-        {
-            // ')5', ')A', ')(', ')Ans'
-            // 'A5', 'AB', 'A(', 'AAns'
-            // 'Ans5', 'AnsA', 'Ans(', 'AnsAns'
-            return rightToken.Type == TokenType.Number
-                || rightToken.Type == TokenType.NumberId
-                || rightToken.Type == TokenType.LeftParentheses
-                || rightToken.Lexeme == Environment.ANS_NAME;
-        }
-
-        return false;
+        // '5A', '5(', '5Ans'
+        // ')5', ')A', ')(', ')Ans'
+        // 'A5', 'AB', 'A(', 'AAns'
+        // 'Ans5', 'AnsA', 'Ans(', 'AnsAns'
+        return (leftToken.Type == TokenType.Number || leftToken.Type == TokenType.NumberId || leftToken.Lexeme == Environment.ANS_NAME || leftToken.Type == TokenType.RightParentheses)
+            && (rightToken.Type == TokenType.Number || rightToken.Type == TokenType.NumberId || rightToken.Lexeme == Environment.ANS_NAME || rightToken.Type == TokenType.LeftParentheses);
     }
 
     private Expr Unary()

@@ -12,10 +12,10 @@ public class Token
 
     public int Line { get; private set; }
 
-    public Token(TokenType type, string lexeme, object? literal = null, int line = -1)
+    public Token(TokenType type, string? lexeme = null, object? literal = null, int line = -1)
     {
         Type = type;
-        Lexeme = lexeme;
+        Lexeme = lexeme ?? type.Lexeme;
         Literal = literal;
         Line = line;
     }

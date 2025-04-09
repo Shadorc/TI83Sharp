@@ -27,8 +27,7 @@ public class Scanner
         var tokenTypes = TokenType.GetTokenTypesByCategory(TokenTypeCategory.ReservedWord);
         foreach (var tokenType in tokenTypes)
         {
-            var lexeme = tokenType.Lexeme;
-            reservedKeywords[lexeme] = new Token(tokenType, lexeme);
+            reservedKeywords[tokenType.Lexeme] = new Token(tokenType);
         }
         return reservedKeywords;
     }
@@ -141,7 +140,7 @@ public class Scanner
 
     private void AddToken(TokenType type, string? lexeme = null, object? literal = null)
     {
-        _tokens.Add(new Token(type, lexeme ?? type.Lexeme, literal, _line));
+        _tokens.Add(new Token(type, lexeme, literal, _line));
     }
 
     private char Peek(int offset = 1)
