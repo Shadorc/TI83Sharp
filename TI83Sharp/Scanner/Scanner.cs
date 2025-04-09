@@ -50,6 +50,8 @@ public class Scanner
 
         // Normalize line endings to LF     
         source = source.Replace("\r\n", "\n");
+        // Normalize MINUS SIGN to HYPHEN-MINUS
+        source = source.Replace('−', '-');
         // Add colon after DelVar command if absent because this is the only chainable command
         source = delvarRegex.Replace(source, "DelVar $1:");
 
