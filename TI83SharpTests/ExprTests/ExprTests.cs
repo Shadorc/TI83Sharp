@@ -15,6 +15,34 @@ public class ExprTests
     }
 
     [TestMethod]
+    public void TestExpr_ImplicitMultiplicationVar()
+    {
+        var source =
+            @"
+            :2→A   
+            :5→B   
+            :3→C   
+            :AB-C
+             ";
+        Interpret(source, out var logger, out _);
+        Assert.AreEqual("7", logger.MessageOutput);
+    }
+
+    [TestMethod]
+    public void TestExpr_ImplicitMultiplicationVarAns()
+    {
+        var source =
+            @"
+            :2→A   
+            :3→C   
+            :5→D
+            :AAns-C
+             ";
+        Interpret(source, out var logger, out _);
+        Assert.AreEqual("7", logger.MessageOutput);
+    }
+
+    [TestMethod]
     public void TestExpr_ConditionOptimized()
     {
         /*

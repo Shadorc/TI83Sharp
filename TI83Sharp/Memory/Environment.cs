@@ -6,6 +6,7 @@ namespace TI83Sharp;
 public class Environment
 {
     public const char LIST_NAME_START = '∟';
+    public const string ANS_NAME = "Ans";
     // Need to be different than 'Ans' to differentiate from function
     public const string ANS_VALUE = "AnsValue";
 

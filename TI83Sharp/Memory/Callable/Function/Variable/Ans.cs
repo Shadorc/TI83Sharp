@@ -3,7 +3,7 @@ namespace TI83Sharp;
 
 public class Ans : Function
 {
-    public Ans() : base ("Ans")
+    public Ans() : base (Environment.ANS_NAME)
     {
     }
 
