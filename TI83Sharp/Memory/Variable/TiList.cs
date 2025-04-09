@@ -163,4 +163,9 @@ public class TiList : List<TiNumber>, IEquatable<TiList>
     {
         return PerformOperation(left, right, (leftNum, rightNum) => leftNum / rightNum);
     }
+
+    public static TiList operator ^(TiList left, TiNumber right)
+    {
+        return PerformOperation(left, (leftNum) => leftNum ^ right);
+    }
 }

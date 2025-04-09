@@ -209,6 +209,10 @@ public class Interpreter : IExprVisitor<object>, IStmtVisitor
                 {
                     return leftNumber ^ rightNumber;
                 }
+                else if (left is TiList leftList)
+                {
+                    return leftList ^ rightNumber;
+                }
                 else if (left is TiMatrix leftMatrix)
                 {
                     return leftMatrix ^ rightNumber;

@@ -120,6 +120,18 @@ public partial class OperationTests
             Assert.AreEqual(new TiList() { 2, 10, 9 }, environment.Get<TiList>("L₃"));
         }
 
+        [TestMethod]
+        public void TestList_PowNumber()
+        {
+            var source =
+                @"
+                :{1,2,3}→L₁
+                :L₁^4→L₃
+                ";
+            Interpret(source, out _, out var environment);
+            Assert.AreEqual(new TiList() { 1, 16, 81 }, environment.Get<TiList>("L₃"));
+        }
+
 
         [TestMethod]
         public void TestList_Equals()
