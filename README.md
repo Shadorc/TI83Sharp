@@ -41,7 +41,7 @@ Currently not supported:
 | **Number**       | `abs(`, `round(`, `iPart(`, `fPart(`, `int(`, `min(`, `max(`                              |
 | **String**       | `sub(`, `inString(`                                                                      |
 | **Probability**  | `rand`, `randInt(`                                                                       |
-| **Math**         | `cos(`, `cos⁻¹(`, `cosh(`, `cosh⁻¹(`, `sin(`, `sinh(`, `sin⁻¹(`, `sinh⁻¹(`, `tan(`, `tan⁻¹(`, `tanh(`, `tanh⁻¹(`, `ln(`, `log(`, `√(`, `³√(` |
+| **Math**         | `cos(`, `cos⁻¹(`, `cosh(`, `cosh⁻¹(`, `sin(`, `sinh(`, `sin⁻¹(`, `sinh⁻¹(`, `tan(`, `tan⁻¹(`, `tanh(`, `tanh⁻¹(`, `ln(`, `log(`, `√(`, `³√(`, `ᴇ` |
 
 ## Resources
 - [Crafting Interpreters](https://craftinginterpreters.com) by [@munificent](https://github.com/munificent)
