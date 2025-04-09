@@ -201,7 +201,7 @@ public class Interpreter : IExprVisitor<object>, IStmtVisitor
 
             throw new RuntimeError(binary.Op, RuntimeError.DataType.Message);
         }
-        else if (binary.Op.Type == TokenType.Pow)
+        else if (binary.Op.Type == TokenType.Pow || binary.Op.Type == TokenType.Square || binary.Op.Type == TokenType.Cube)
         {
             if (right is TiNumber rightNumber)
             {
