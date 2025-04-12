@@ -12,6 +12,9 @@ public static class MainProgram
 
         [Option(Required = false, HelpText = "Script text to be processed.")]
         public string? ScriptText { get; set; }
+
+        [Option(Required = false, HelpText = "Execute in the console.")]
+        public bool NoGUI { get; set; }
     }
 
     [STAThread]
@@ -35,40 +38,107 @@ public static class MainProgram
             h.AutoVersion = false;
             return h;
         });
-        TIForm.ShowErrorBeforeExit(helpText);
+        ShowErrorBeforeExit(false, helpText);
     }
 
     private static void RunOptions(Options opts)
     {
         if (!string.IsNullOrWhiteSpace(opts.ScriptText))
         {
-            Execute(opts.ScriptText);
+            Execute(opts.NoGUI, opts.ScriptText);
         }
         else if (!string.IsNullOrWhiteSpace(opts.ScriptFile))
         {
             string scriptFile = opts.ScriptFile;
             if (!File.Exists(scriptFile))
             {
-                TIForm.ShowErrorBeforeExit($"File '{scriptFile}' does not exist");
+                ShowErrorBeforeExit(opts.NoGUI, $"File '{scriptFile}' does not exist");
                 return;
             }
 
             if (Path.GetExtension(scriptFile) != ".bas")
             {
-                TIForm.ShowErrorBeforeExit($"File '{scriptFile}' format is not supported, expected .bas extension");
+                ShowErrorBeforeExit(opts.NoGUI, $"File '{scriptFile}' format is not supported, expected .bas extension");
                 return;
             }
 
-            Execute(File.ReadAllText(scriptFile));
+            Execute(opts.NoGUI, File.ReadAllText(scriptFile));
         }
         else
         {
-            TIForm.ShowErrorBeforeExit($"Either '-{nameof(Options.ScriptText).ToLower()}' or '-{nameof(Options.ScriptFile).ToLower()}' must be specified and non empty");
+            ShowErrorBeforeExit(opts.NoGUI, $"Either '-{nameof(Options.ScriptText).ToLower()}' or '-{nameof(Options.ScriptFile).ToLower()}' must be specified and non empty");
         }
     }
 
-    private static void Execute(string content)
+    private static void ShowErrorBeforeExit(bool noGUI, string message)
     {
-        Application.Run(new TIForm(content));
+        if (noGUI)
+        {
+            ConsoleOutput.ShowErrorBeforeExit(message);
+        }
+        else
+        {
+            TIForm.ShowErrorBeforeExit(message);
+        }
+    }
+
+    private async static void Execute(bool noGUI, string content)
+    {
+        if (noGUI)
+        {
+            ConsoleOutput.AllocConsole();
+
+            var output = new ConsoleOutput();
+            var input = new ConsoleInput();
+            input.ReadInputAsync();
+
+            Interpret(content, input, output);
+        }
+        else
+        {
+            var tiForm = new TIForm();
+
+            var screen = new TiHomeScreen();
+            screen.Change += tiForm.OnScreenChange;
+
+            var output = new TiScreenOutput(screen);
+            var input = new TiScreenInput();
+            tiForm.KeyDown += (sender, e) => input.OnKeyPressed(e.KeyCode);
+
+            var interpreterTask = Task.Run(() => Interpret(content, input, output));
+
+            Application.Run(tiForm);
+
+            await interpreterTask;
+        }
+    }
+
+    private static void Interpret(string content, IInput input, IOutput output)
+    {
+        try
+        {
+            var scanner = new Scanner(output, content);
+
+            var tokens = new List<Token>();
+            scanner.ScanTokens(tokens);
+
+            var parser = new Parser(tokens);
+            var statements = parser.Parse();
+
+            var interpreter = new Interpreter(output, input);
+            interpreter.Interpret(statements);
+        }
+        catch (Exception err)
+        {
+            if (err is SyntaxError || err is RuntimeError)
+            {
+                foreach (var line in err.Message.Split('\n'))
+                {
+                    output.Message(line);
+                }
+            }
+
+            throw;
+        }
     }
 }

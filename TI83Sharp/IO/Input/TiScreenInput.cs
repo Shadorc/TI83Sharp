@@ -2,11 +2,7 @@
 
 public class TiScreenInput : IInput
 {
-    private Keys _lastKeyPressed;
-    private Keys _lastWaitingKeyPressed;
-    private bool _isReading;
-
-    private static readonly Dictionary<Keys, int> s_keyCodeMap = new Dictionary<Keys, int>()
+    private static readonly Dictionary<Keys, int> s_keysToCode = new Dictionary<Keys, int>()
     {
         { Keys.Left, 24 },
         { Keys.Up, 25 },
@@ -52,7 +48,7 @@ public class TiScreenInput : IInput
         { Keys.Enter, 105 },
     };
 
-    private static readonly Dictionary<Keys, char> s_keyCharMap = new Dictionary<Keys, char>()
+    private static readonly Dictionary<Keys, char> s_keysToChar = new Dictionary<Keys, char>()
     {
         { Keys.A, 'A' },
         { Keys.B, 'B' },
@@ -103,6 +99,15 @@ public class TiScreenInput : IInput
         { Keys.Enter, '\n' },
     };
 
+    private Keys _lastKeyPressed;
+    private bool _isReading;
+
+    public void OnKeyPressed(Keys keys)
+    {
+        _lastKeyPressed = keys;
+        _isReading = false;
+    }
+
     public int GetKey()
     {
         if (_lastKeyPressed == default)
@@ -110,22 +115,11 @@ public class TiScreenInput : IInput
             return 0;
         }
 
-        var keyCode = s_keyCodeMap[_lastKeyPressed];
+        var key = _lastKeyPressed;
         _lastKeyPressed = default;
-        return keyCode;
-    }
 
-    public void OnKeyPressed(Keys keys)
-    {
-        if (_isReading)
-        {
-            _lastWaitingKeyPressed = keys;
-            _isReading = false;
-        }
-        else
-        {
-            _lastKeyPressed = keys;
-        }
+        var keyCode = s_keysToCode[key];
+        return keyCode;
     }
 
     public char WaitChar()
@@ -137,6 +131,8 @@ public class TiScreenInput : IInput
             Thread.Sleep(50);
         }
 
-        return s_keyCharMap[_lastWaitingKeyPressed];
+        var key = _lastKeyPressed;
+        _lastKeyPressed = default;
+        return s_keysToChar[key];
     }
 }

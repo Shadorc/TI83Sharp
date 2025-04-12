@@ -28,7 +28,7 @@ public partial class TIForm : Form
     private float _resizeRatio = 1f;
     private BufferedGraphics _bufferedGraphics;
 
-    public TIForm(string content)
+    public TIForm()
     {
         InitializeComponent();
 
@@ -59,8 +59,6 @@ public partial class TIForm : Form
         var g = _bufferedGraphics.Graphics;
         PaintCalculator(g);
 
-        Interpret(content);
-
         // Initialize and start the refresh timer
         _refreshTimer = new System.Windows.Forms.Timer
         {
@@ -80,45 +78,9 @@ public partial class TIForm : Form
         _refreshTimer.Dispose();
     }
 
-    private async void Interpret(string content)
+    public void OnScreenChange(object? sender, ScreenChangedEventArgs e)
     {
-        await Task.Run(() =>
-        {
-            var screen = new TiHomeScreen();
-            screen.Change += (sender, e) => _screen = e.Screen;
-
-            var output = new TiScreenOutput(screen);
-            var input = new TiScreenInput();
-            KeyDown += (sender, e) => input.OnKeyPressed(e.KeyCode);
-
-            try
-            {
-                var scanner = new Scanner(output, content);
-
-                var tokens = new List<Token>();
-                scanner.ScanTokens(tokens);
-
-                var parser = new Parser(tokens);
-                var statements = parser.Parse();
-
-                var interpreter = new Interpreter(output, input);
-                interpreter.Interpret(statements);
-            }
-            catch (Exception err)
-            {
-                if (err is SyntaxError || err is RuntimeError)
-                {
-                    foreach (var line in err.Message.Split('\n'))
-                    {
-                        output.Message(line);
-                    }
-                }
-                else
-                {
-                    ShowErrorBeforeExit(err.Message);
-                }
-            }
-        });
+        _screen = e.Screen;
     }
 
     private void OnResize(object? sender, EventArgs e)
