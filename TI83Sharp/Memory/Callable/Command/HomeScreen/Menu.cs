@@ -59,7 +59,7 @@ public class Menu : Command
         do
         {
             input = interpreter.Input.WaitChar();
-        } while (!char.IsBetween(input, '1', '7'));
+        } while (!char.IsBetween(input, '1', '7') || input - '1' >= choices.Count);
 
         throw new GotoException(choices[input - '1'].Label);
     }
