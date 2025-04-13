@@ -2,15 +2,15 @@
 
 public class Interpreter : IExprVisitor<object>, IStmtVisitor
 {
-    public readonly IOutput Output;
+    public readonly TiHomeScreen HomeScreen;
     public readonly IInput Input;
     public readonly Environment Environment;
 
     internal Random Random;
 
-    public Interpreter(IOutput output, IInput input)
+    public Interpreter(TiHomeScreen homeScreen, IInput input)
     {
-        Output = output;
+        HomeScreen = homeScreen;
         Input = input;
         Environment = new Environment();
 
@@ -496,7 +496,7 @@ public class Interpreter : IExprVisitor<object>, IStmtVisitor
     {
         var value = Evaluate(expressionStmt.Expr);
         Environment.Set(Environment.ANS_VALUE, value);
-        Output.Message(value.ToString()!);
+        HomeScreen.Disp(value.ToString()!);
     }
 
     public void VisitIf(If ifStmt)

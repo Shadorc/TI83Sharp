@@ -47,12 +47,12 @@ public class Menu : Command
             choices.Add(new Choice((i + 1) / 2, option, labelArg.ToString()!));
         }
 
-        interpreter.Output.Clear();
-        interpreter.Output.Message(titleStr);
+        interpreter.HomeScreen.Clear();
+        interpreter.HomeScreen.Disp(titleStr);
 
         foreach (var choice in choices)
         {
-            interpreter.Output.Message($"{choice.Id}:{choice.Option}");
+            interpreter.HomeScreen.Disp($"{choice.Id}:{choice.Option}");
         }
 
         char input;

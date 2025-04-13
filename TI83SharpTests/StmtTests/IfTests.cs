@@ -14,8 +14,8 @@ public class IfTests
             :If A=1
             :Disp 1
             ";
-        Interpret(source, out var logger, out _);
-        Assert.AreEqual("1", logger.MessageOutput);
+        Interpret(source, out var homeScreen, out _);
+        Assert.AreEqual("1", homeScreen.ToString());
     }
 
     [TestMethod]
@@ -27,8 +27,8 @@ public class IfTests
             :If A=2
             :Disp 1
             ";
-        Interpret(source, out var logger, out _);
-        Assert.AreEqual(string.Empty, logger.MessageOutput);
+        Interpret(source, out var homeScreen, out _);
+        Assert.AreEqual(string.Empty, homeScreen.ToString());
     }
 
     [TestMethod]
@@ -44,7 +44,7 @@ public class IfTests
             :Disp 2
             :End
             ";
-        Interpret(source, out var logger, out _);
-        Assert.AreEqual("2", logger.MessageOutput);
+        Interpret(source, out var homeScreen, out _);
+        Assert.AreEqual("2", homeScreen.ToString());
     }
 }

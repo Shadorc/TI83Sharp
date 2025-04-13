@@ -2,32 +2,30 @@
 
 namespace TI83Sharp;
 
-public class ConsoleOutput : IOutput
+public class ConsoleOutput
 {
     [DllImport("kernel32.dll", SetLastError = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
-    public static extern bool AllocConsole();
+    private static extern bool AllocConsole();
 
-    public void Message(string value, LogAlignement alignement = LogAlignement.NewLine | LogAlignement.Left)
+    public ConsoleOutput()
     {
-        if (alignement.HasFlag(LogAlignement.NewLine))
-        {
-            Console.WriteLine(value);
-        }
-        else
-        {
-            Console.Write(value);
-        }
+        AllocConsole();
     }
 
-    public void Message(string value, int x /* ignored */, int y /* ignored */)
-    {
-        Console.WriteLine(value);
-    }
-
-    public void Clear()
+    public void OnScreenChange(object? sender, ScreenChangedEventArgs e)
     {
         Console.Clear();
+
+        var screen = e.Screen;
+        for (int y = 1; y < TiHomeScreen.HEIGHT + 1; y++)
+        {
+            for (int x = 1; x < TiHomeScreen.WIDTH + 1; x++)
+            {
+                Console.Write(screen[x, y]);
+            }
+            Console.WriteLine();
+        }
     }
 
     public static void ShowErrorBeforeExit(string message)

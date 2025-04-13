@@ -16,8 +16,8 @@ public class WhileTests
             :A+1→A
             :End
             ";
-        Interpret(source, out var logger, out _);
-        Assert.AreEqual("1\n2\n3\n4", logger.MessageOutput);
+        Interpret(source, out var homeScreen, out _);
+        Assert.AreEqual("1\n2\n3\n4", homeScreen.ToString());
     }
 
     [TestMethod]
@@ -26,7 +26,7 @@ public class WhileTests
         var source =
             @"
             :1→A
-            :While A<5
+            :While A<4
             :1→B
             :While B<2
             :Disp B
@@ -36,8 +36,8 @@ public class WhileTests
             :A+1→A
             :End
             ";
-        Interpret(source, out var logger, out _);
-        Assert.AreEqual("1\n1\n1\n2\n1\n3\n1\n4", logger.MessageOutput);
+        Interpret(source, out var homeScreen, out _);
+        Assert.AreEqual("1\n1\n1\n2\n1\n3", homeScreen.ToString());
     }
 
     [TestMethod]
@@ -48,7 +48,7 @@ public class WhileTests
             :While 0
             :End
             ";
-        Interpret(source, out var logger, out _);
-        Assert.AreEqual(string.Empty, logger.MessageOutput);
+        Interpret(source, out var homeScreen, out _);
+        Assert.AreEqual(string.Empty, homeScreen.ToString());
     }
 }

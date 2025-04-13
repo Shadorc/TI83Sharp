@@ -1,4 +1,6 @@
-﻿namespace TI83Sharp;
+﻿using System.Text;
+
+namespace TI83Sharp;
 
 public class TiHomeScreen
 {
@@ -94,7 +96,7 @@ public class TiHomeScreen
         Change?.Invoke(this, new ScreenChangedEventArgs(this));
     }
 
-    public void Disp(string str, LogAlignement alignement = LogAlignement.Left)
+    public void Disp(string str, MessageAlignement alignement = MessageAlignement.Left | MessageAlignement.NewLine)
     {
         if (str.Length > WIDTH)
         {
@@ -106,13 +108,13 @@ public class TiHomeScreen
             str = " "; // Consider empty string as whitespace to add new line with Disp("")
         }
 
-        if (CursorX != 1 && alignement.HasFlag(LogAlignement.NewLine))
+        if (CursorX != 1 && alignement.HasFlag(MessageAlignement.NewLine))
         {
             ++CursorY;
             CursorX = 1;
         }
 
-        if (alignement.HasFlag(LogAlignement.Right))
+        if (alignement.HasFlag(MessageAlignement.Right))
         {
             CursorX = WIDTH - str.Length + 1;
         }
@@ -140,5 +142,28 @@ public class TiHomeScreen
         }
 
         Change?.Invoke(this, new ScreenChangedEventArgs(this));
+    }
+
+    public override string ToString()
+    {
+        var screenStr = new StringBuilder();
+        var lineStr = new StringBuilder();
+        for (int y = 1; y < HEIGHT + 1; y++)
+        {
+            lineStr.Clear();
+            for (int x = 1; x < WIDTH + 1; x++)
+            {
+                char c = this[x, y];
+                lineStr.Append(c == '\0' ? ' ' : c);
+            }
+
+            var line = lineStr.ToString().Trim();
+            if (line.Length > 0)
+            {
+                screenStr.AppendLine(line);
+            }
+        }
+
+        return screenStr.ToString().Trim().Replace("\r\n", "\n");
     }
 }

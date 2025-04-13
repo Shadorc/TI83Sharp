@@ -16,8 +16,8 @@ public class RepeatTests
             :A+1→A
             :End
             ";
-        Interpret(source, out var logger, out _);
-        Assert.AreEqual("1\n2\n3\n4\n5", logger.MessageOutput);
+        Interpret(source, out var homeScreen, out _);
+        Assert.AreEqual("1\n2\n3\n4\n5", homeScreen.ToString());
     }
 
     [TestMethod]
@@ -28,8 +28,8 @@ public class RepeatTests
             :Repeat 1
             :End
             ";
-        Interpret(source, out var logger, out _);
-        Assert.AreEqual(string.Empty, logger.MessageOutput);
+        Interpret(source, out var homeScreen, out _);
+        Assert.AreEqual(string.Empty, homeScreen.ToString());
     }
 
     [TestMethod]
@@ -41,7 +41,7 @@ public class RepeatTests
             :Disp 1
             :End
             ";
-        Interpret(source, out var logger, out _);
-        Assert.AreEqual("1", logger.MessageOutput);
+        Interpret(source, out var homeScreen, out _);
+        Assert.AreEqual("1", homeScreen.ToString());
     }
 }

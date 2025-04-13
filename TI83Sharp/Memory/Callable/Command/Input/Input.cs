@@ -34,7 +34,7 @@ public class Input : Command
             throw RuntimeError.DataType;
         }
 
-        interpreter.Output.Message(prompt);
+        interpreter.HomeScreen.Disp(prompt);
 
         var input = new StringBuilder();
         while (true)
@@ -52,7 +52,7 @@ public class Input : Command
                 }
             }
             input.Append(c);
-            interpreter.Output.Message(c.ToString(), LogAlignement.Left);
+            interpreter.HomeScreen.Disp(c.ToString(), MessageAlignement.Left);
         }
 
         if (!float.TryParse(input.ToString(), out var number))

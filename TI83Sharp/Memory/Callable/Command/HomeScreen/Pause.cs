@@ -15,8 +15,8 @@ public class Pause : Command
             var evaluatedArg = interpreter.Evaluate(arg);
             interpreter.Environment.Set(Environment.ANS_VALUE, evaluatedArg);
 
-            var alignement = evaluatedArg is string ? LogAlignement.Left : LogAlignement.Right;
-            interpreter.Output.Message(evaluatedArg.ToString()!, alignement);
+            var alignement = evaluatedArg is string ? MessageAlignement.Left : MessageAlignement.Right;
+            interpreter.HomeScreen.Disp(evaluatedArg.ToString()!, alignement);
         }
 
         char c;

@@ -14,8 +14,8 @@ public class ForTests
             :Disp A
             :End
             ";
-        Interpret(source, out var logger, out _);
-        Assert.AreEqual("1\n2\n3\n4\n5", logger.MessageOutput);
+        Interpret(source, out var homeScreen, out _);
+        Assert.AreEqual("1\n2\n3\n4\n5", homeScreen.ToString());
     }
 
     [TestMethod]
@@ -27,8 +27,8 @@ public class ForTests
             :Disp A
             :End
             ";
-        Interpret(source, out var logger, out _);
-        Assert.AreEqual("1\n2\n3\n4\n5", logger.MessageOutput);
+        Interpret(source, out var homeScreen, out _);
+        Assert.AreEqual("1\n2\n3\n4\n5", homeScreen.ToString());
     }
 
     [TestMethod]
@@ -40,8 +40,8 @@ public class ForTests
             :Disp A
             :End
             ";
-        Interpret(source, out var logger, out _);
-        Assert.AreEqual("1\n3\n5", logger.MessageOutput);
+        Interpret(source, out var homeScreen, out _);
+        Assert.AreEqual("1\n3\n5", homeScreen.ToString());
     }
 
     [TestMethod]
@@ -53,8 +53,8 @@ public class ForTests
             :Disp A
             :End
             ";
-        Interpret(source, out var logger, out _);
-        Assert.AreEqual("6\n4\n2", logger.MessageOutput);
+        Interpret(source, out var homeScreen, out _);
+        Assert.AreEqual("6\n4\n2", homeScreen.ToString());
     }
 
     [TestMethod]
@@ -65,7 +65,7 @@ public class ForTests
             :For(A,1,5)
             :End
             ";
-        Interpret(source, out var logger, out _);
-        Assert.AreEqual(string.Empty, logger.MessageOutput);
+        Interpret(source, out var homeScreen, out _);
+        Assert.AreEqual(string.Empty, homeScreen.ToString());
     }
 }

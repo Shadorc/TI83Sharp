@@ -18,6 +18,6 @@ public class Output : Command
             throw RuntimeError.DataType;
         }
 
-        interpreter.Output.Message(arg3.ToString()!, column, row);
+        interpreter.HomeScreen.Output(arg3.ToString()!, column, row);
     }
 }

@@ -1,5 +1,6 @@
 ﻿using CommandLine;
 using CommandLine.Text;
+using System.Windows.Forms;
 
 namespace TI83Sharp;
 
@@ -86,13 +87,15 @@ public static class MainProgram
     {
         if (noGUI)
         {
-            ConsoleOutput.AllocConsole();
+            var consoleOutput = new ConsoleOutput();
 
-            var output = new ConsoleOutput();
+            var screen = new TiHomeScreen();
+            screen.Change += consoleOutput.OnScreenChange;
+
             var input = new ConsoleInput();
             input.ReadInputAsync();
 
-            Interpret(content, input, output);
+            Interpret(content, screen, input);
         }
         else
         {
@@ -101,11 +104,10 @@ public static class MainProgram
             var screen = new TiHomeScreen();
             screen.Change += tiForm.OnScreenChange;
 
-            var output = new TiScreenOutput(screen);
             var input = new TiScreenInput();
             tiForm.KeyDown += (sender, e) => input.OnKeyPressed(e.KeyCode);
 
-            var interpreterTask = Task.Run(() => Interpret(content, input, output));
+            var interpreterTask = Task.Run(() => Interpret(content, screen, input));
 
             Application.Run(tiForm);
 
@@ -113,11 +115,11 @@ public static class MainProgram
         }
     }
 
-    private static void Interpret(string content, IInput input, IOutput output)
+    private static void Interpret(string content, TiHomeScreen homeScreen, IInput input)
     {
         try
         {
-            var scanner = new Scanner(output, content);
+            var scanner = new Scanner(content);
 
             var tokens = new List<Token>();
             scanner.ScanTokens(tokens);
@@ -125,7 +127,7 @@ public static class MainProgram
             var parser = new Parser(tokens);
             var statements = parser.Parse();
 
-            var interpreter = new Interpreter(output, input);
+            var interpreter = new Interpreter(homeScreen, input);
             interpreter.Interpret(statements);
         }
         catch (Exception err)
@@ -134,7 +136,7 @@ public static class MainProgram
             {
                 foreach (var line in err.Message.Split('\n'))
                 {
-                    output.Message(line);
+                    homeScreen.Disp(line);
                 }
             }
 

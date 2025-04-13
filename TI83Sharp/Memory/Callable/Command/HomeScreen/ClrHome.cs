@@ -9,6 +9,6 @@ public class ClrHome : Command
 
     public override void Call(Interpreter interpreter, List<Expr> arguments)
     {
-        interpreter.Output.Clear();
+        interpreter.HomeScreen.Clear();
     }
 }

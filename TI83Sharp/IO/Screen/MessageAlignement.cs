@@ -1,7 +1,7 @@
 ﻿namespace TI83Sharp;
 
 [Flags]
-public enum LogAlignement
+public enum MessageAlignement
 {
     NewLine = 1,
     Left = 2,

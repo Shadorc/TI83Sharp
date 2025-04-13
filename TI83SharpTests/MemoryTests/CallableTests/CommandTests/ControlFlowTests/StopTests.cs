@@ -13,16 +13,16 @@ public class StopTests
             :Stop
             :Disp 1
             ";
-        Interpret(source, out var output, out _);
-        Assert.IsTrue(output.MessageOutput.Length == 0);
+        Interpret(source, out var homeScreen, out _);
+        Assert.IsTrue(homeScreen.ToString().Length == 0);
 
         source =
             @"
             :Disp 1
             :Stop
             ";
-        Interpret(source, out output, out _);
-        Assert.AreEqual("1", output.MessageOutput);
+        Interpret(source, out homeScreen, out _);
+        Assert.AreEqual("1", homeScreen.ToString());
     }
 
     [TestMethod]
@@ -35,7 +35,7 @@ public class StopTests
             :End
             :Disp 1
             ";
-        Interpret(source, out var output, out _);
-        Assert.IsTrue(output.MessageOutput.Length == 0);
+        Interpret(source, out var homeScreen, out _);
+        Assert.IsTrue(homeScreen.ToString().Length == 0);
     }
 }

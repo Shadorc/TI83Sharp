@@ -10,8 +10,8 @@ public class ExprTests
     public void TestExpr_ImplicitMult_Const()
     {
         var source = ":2(5-3)";
-        Interpret(source, out var logger, out _);
-        Assert.AreEqual("4", logger.MessageOutput);
+        Interpret(source, out var homeScreen, out _);
+        Assert.AreEqual("4", homeScreen.ToString());
     }
 
     [TestMethod]
@@ -24,8 +24,8 @@ public class ExprTests
             :3→C   
             :AB-C
              ";
-        Interpret(source, out var logger, out _);
-        Assert.AreEqual("7", logger.MessageOutput);
+        Interpret(source, out var homeScreen, out _);
+        Assert.AreEqual("7", homeScreen.ToString());
 
         source =
             @"
@@ -34,8 +34,8 @@ public class ExprTests
             :3→C   
             :A(B-C)
              ";
-        Interpret(source, out logger, out _);
-        Assert.AreEqual("4", logger.MessageOutput);
+        Interpret(source, out homeScreen, out _);
+        Assert.AreEqual("4", homeScreen.ToString());
     }
 
     [TestMethod]
@@ -48,8 +48,8 @@ public class ExprTests
             :5→D
             :AAns-C
              ";
-        Interpret(source, out var logger, out _);
-        Assert.AreEqual("7", logger.MessageOutput);
+        Interpret(source, out var homeScreen, out _);
+        Assert.AreEqual("7", homeScreen.ToString());
 
         source =
             @"
@@ -58,8 +58,8 @@ public class ExprTests
             :5→D
             :Ans(A-C)
              ";
-        Interpret(source, out logger, out _);
-        Assert.AreEqual("-5", logger.MessageOutput);
+        Interpret(source, out homeScreen, out _);
+        Assert.AreEqual("-5", homeScreen.ToString());
     }
 
     [TestMethod]

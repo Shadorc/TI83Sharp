@@ -13,7 +13,6 @@ public class Scanner
     private static readonly Dictionary<string, Token> _reservedKeywords = GetReservedKeywords();
     private static readonly List<char> _reservedChars = GetReservedChars();
 
-    private readonly IOutput _output;
     private readonly string _source;
     private readonly List<Token> _tokens;
 
@@ -73,9 +72,8 @@ public class Scanner
         return normalizedSource.ToString();
     }
 
-    public Scanner(IOutput output, string source)
+    public Scanner(string source)
     {
-        _output = output;
         _source = NormalizeSource(source);
         _tokens = new List<Token>();
 

@@ -11,8 +11,8 @@ public class Disp : Command
         foreach (var argument in arguments)
         {
             var evaluatedArg = interpreter.Evaluate(argument);
-            var alignement = evaluatedArg is string ? LogAlignement.Left : LogAlignement.Right;
-            interpreter.Output.Message(evaluatedArg.ToString()!, alignement | LogAlignement.NewLine);
+            var alignement = evaluatedArg is string ? MessageAlignement.Left : MessageAlignement.Right;
+            interpreter.HomeScreen.Disp(evaluatedArg.ToString()!, alignement | MessageAlignement.NewLine);
         }
     }
 }

@@ -21,8 +21,8 @@ public class GotoTests
             :Goto 1
             :Lbl AB
             ";
-        Interpret(source, out var logger, out _);
-        Assert.AreEqual("3\n2", logger.MessageOutput);
+        Interpret(source, out var homeScreen, out _);
+        Assert.AreEqual("3\n2", homeScreen.ToString());
     }
 
     [TestMethod]
