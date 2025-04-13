@@ -18,7 +18,12 @@ public class ConsoleOutput
     {
         AllocConsole();
 
-        _refreshTimer = new Timer(new TimerCallback(_ => OutputScreen()), null, 0, 500);
+        _refreshTimer = new Timer(
+                new TimerCallback(_ => OutputScreen()),
+                null,
+                0,
+                500 // 500ms = 2Hz
+            );
     }
 
     ~ConsoleOutput()

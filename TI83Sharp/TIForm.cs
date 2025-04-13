@@ -63,8 +63,7 @@ public partial class TIForm : Form
         // Initialize and start the refresh timer
         _refreshTimer = new System.Windows.Forms.Timer
         {
-            // TODO: Synchronizes interpreter refresh to this value
-            Interval = 16 // 16 milliseconds ~ 60 FPS
+            Interval = 16 // 16ms ~= 60Hz
         };
         _refreshTimer.Tick += (sender, e) => Invalidate();
         _refreshTimer.Start();
