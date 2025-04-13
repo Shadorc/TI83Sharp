@@ -7,7 +7,7 @@ public class TiHomeScreen
     public const int WIDTH = 16;
     public const int HEIGHT = 8;
 
-    public event EventHandler<ScreenChangedEventArgs>? Change;
+    public Action<TiHomeScreen>? Change;
 
     private readonly char[,] _screen;
     private int _cursorX; // [1, WIDTH]
@@ -51,7 +51,7 @@ public class TiHomeScreen
                 _cursorX = 1;
                 _cursorY = HEIGHT;
 
-                Change?.Invoke(this, new ScreenChangedEventArgs(this));
+                Change?.Invoke(this);
             }
         }
     }
@@ -93,7 +93,7 @@ public class TiHomeScreen
             }
         }
 
-        Change?.Invoke(this, new ScreenChangedEventArgs(this));
+        Change?.Invoke(this);
     }
 
     public void Disp(string str, MessageAlignement alignement = MessageAlignement.Left | MessageAlignement.NewLine)
@@ -125,7 +125,7 @@ public class TiHomeScreen
             ++CursorX;
         }
 
-        Change?.Invoke(this, new ScreenChangedEventArgs(this));
+        Change?.Invoke(this);
     }
 
     public void Clear()
@@ -141,7 +141,7 @@ public class TiHomeScreen
             }
         }
 
-        Change?.Invoke(this, new ScreenChangedEventArgs(this));
+        Change?.Invoke(this);
     }
 
     public override string ToString()

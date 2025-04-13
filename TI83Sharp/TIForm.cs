@@ -78,9 +78,9 @@ public partial class TIForm : Form
         _refreshTimer.Dispose();
     }
 
-    public void OnScreenChange(object? sender, ScreenChangedEventArgs e)
+    public void OnScreenChange(TiHomeScreen screen)
     {
-        _screen = e.Screen;
+        _screen = screen;
         _needsRefresh = true;
     }
 
