@@ -2,7 +2,7 @@
 
 public class CubeRoot : MathFunction
 {
-    private static readonly TiNumber ONE_THIRD = new TiNumber(1f / 3f);
+    private static readonly TiNumber ONE_THIRD = (TiNumber)(1f / 3f);
 
     public CubeRoot() : base("³√(")
     {

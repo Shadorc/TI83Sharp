@@ -16,11 +16,11 @@ public class MathFunctionTests
     }
 
     [TestMethod]
-    public void Call_WithTiNumber_ReturnsExpectedResult()
+    public void Call_WithNumber_ReturnsExpectedResult()
     {
         var function = new TestMathFunction();
         var interpreter = new Interpreter(null, null);
-        var arguments = new List<Expr> { new Literal(new TiNumber(1)) };
+        var arguments = new List<Expr> { new Literal((TiNumber)1) };
 
         var result = function.Call(interpreter, arguments);
 
@@ -29,11 +29,11 @@ public class MathFunctionTests
     }
 
     [TestMethod]
-    public void Call_WithTiList_ReturnsExpectedResult()
+    public void Call_WithList_ReturnsExpectedResult()
     {
         var function = new TestMathFunction();
         var interpreter = new Interpreter(null, null);
-        var list = new TiList { new TiNumber(1), new TiNumber(2) };
+        var list = new TiList { (TiNumber)1, (TiNumber)2 };
         var arguments = new List<Expr> { new Literal(list) };
 
         var result = function.Call(interpreter, arguments);

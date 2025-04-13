@@ -12,19 +12,19 @@ public readonly struct TiNumber : IComparable<TiNumber>, IEquatable<TiNumber>
 
     private readonly float _value;
 
-    public TiNumber(float value)
+    private TiNumber(float value)
     {
         _value = value;
     }
 
-    public TiNumber(int value)
+    private TiNumber(int value)
     {
         _value = value;
     }
 
-    public TiNumber ToInt()
+    public readonly TiNumber ToInt()
     {
-        return new TiNumber((int)_value);
+        return (TiNumber)(int)_value;
     }
 
     public readonly bool IsInt()
@@ -54,7 +54,7 @@ public readonly struct TiNumber : IComparable<TiNumber>, IEquatable<TiNumber>
         return false;
     }
 
-    public bool Equals(TiNumber other)
+    public readonly bool Equals(TiNumber other)
     {
         return other._value == _value;
     }
@@ -76,11 +76,11 @@ public readonly struct TiNumber : IComparable<TiNumber>, IEquatable<TiNumber>
     public static bool operator <=(TiNumber a, TiNumber b) => a.CompareTo(b) <= 0;
     public static bool operator >=(TiNumber a, TiNumber b) => a.CompareTo(b) >= 0;
 
-    public static TiNumber operator +(TiNumber left, TiNumber right) => new TiNumber(left._value + right._value);
+    public static TiNumber operator +(TiNumber left, TiNumber right) => (TiNumber)(left._value + right._value);
 
-    public static TiNumber operator -(TiNumber left, TiNumber right) => new TiNumber(left._value - right._value);
+    public static TiNumber operator -(TiNumber left, TiNumber right) => (TiNumber)(left._value - right._value);
 
-    public static TiNumber operator *(TiNumber left, TiNumber right) => new TiNumber(left._value * right._value);
+    public static TiNumber operator *(TiNumber left, TiNumber right) => (TiNumber)(left._value * right._value);
 
     public static TiNumber operator /(TiNumber left, TiNumber right)
     {
@@ -89,7 +89,7 @@ public readonly struct TiNumber : IComparable<TiNumber>, IEquatable<TiNumber>
             throw RuntimeError.DivideByZero;
         }
 
-        return new TiNumber(left._value / right._value);
+        return (TiNumber)(left._value / right._value);
     }
 
     public static TiNumber operator ^(TiNumber left, TiNumber right)
@@ -102,8 +102,7 @@ public readonly struct TiNumber : IComparable<TiNumber>, IEquatable<TiNumber>
         return (TiNumber)MathF.Pow(left, right);
     }
 
-    public static TiNumber operator -(TiNumber num) => new TiNumber(-num._value);
-
+    public static TiNumber operator -(TiNumber num) => (TiNumber)(-num._value);
 
     public static implicit operator TiNumber(float value) => new TiNumber(value);
 

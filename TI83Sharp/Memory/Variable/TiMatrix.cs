@@ -33,7 +33,7 @@ public class TiMatrix : IEquatable<TiMatrix>
             var row = new List<TiNumber>();
             for (var j = 0; j < cols; j++)
             {
-                row.Add(new TiNumber(0));
+                row.Add((TiNumber)0);
             }
             _matrix.Add(row);
         }
