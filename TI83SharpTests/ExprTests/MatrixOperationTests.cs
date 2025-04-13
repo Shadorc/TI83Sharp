@@ -28,7 +28,7 @@ public partial class OperationTests
         }
 
         [TestMethod]
-        public void TestMatrix_Substract()
+        public void TestMatrix_Subtract()
         {
             var source =
                 @"

@@ -46,7 +46,7 @@ public partial class OperationTests
         }
 
         [TestMethod]
-        public void TestList_SubstractList()
+        public void TestList_SubtractList()
         {
             var source =
                 @"
@@ -59,7 +59,7 @@ public partial class OperationTests
         }
 
         [TestMethod]
-        public void TestList_SubstractNumberRight()
+        public void TestList_SubtractNumberRight()
         {
             var source =
                 @"
@@ -71,7 +71,7 @@ public partial class OperationTests
         }
 
         [TestMethod]
-        public void TestList_SubstractNumberLeft()
+        public void TestList_SubtractNumberLeft()
         {
             var source =
                 @"
