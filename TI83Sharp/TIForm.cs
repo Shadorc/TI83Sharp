@@ -25,6 +25,7 @@ public partial class TIForm : Form
 
     private Font _font;
     private TiHomeScreen? _screen;
+    private bool _needsRefresh;
     private float _resizeRatio = 1f;
     private BufferedGraphics _bufferedGraphics;
 
@@ -81,6 +82,7 @@ public partial class TIForm : Form
     public void OnScreenChange(object? sender, ScreenChangedEventArgs e)
     {
         _screen = e.Screen;
+        _needsRefresh = true;
     }
 
     private void OnResize(object? sender, EventArgs e)
@@ -128,7 +130,7 @@ public partial class TIForm : Form
 
     private void PaintScreen(Graphics g)
     {
-        if (_screen == null)
+        if (!_needsRefresh || _screen == null)
         {
             return;
         }
@@ -148,6 +150,8 @@ public partial class TIForm : Form
                 g.DrawString(c.ToString(), _font, s_blackBrush, charX, charY);
             }
         }
+
+        _needsRefresh = false;
     }
 
     private Rectangle GetCalculatorRect(Image image)
