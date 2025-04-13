@@ -10,6 +10,7 @@ public class Scanner
     private const char DECIMAL_SEP = '.';
     private const char EOF_CHAR = '\0';
 
+    private static readonly Regex _implicitVarRegex = new Regex(@"(Ans|[A-Zθ])+");
     private static readonly Dictionary<string, Token> _reservedKeywords = GetReservedKeywords();
     private static readonly List<char> _reservedChars = GetReservedChars();
 
@@ -358,7 +359,7 @@ public class Scanner
     private bool TryParseImplicitVarMult(string lexeme)
     {
         // Check if the lexeme is a multiplication of several number IDs (e.g. AB for A*B or AnsC for Ans*C)
-        var match = Regex.Match(lexeme, @"(Ans|[A-Zθ])+");
+        var match = _implicitVarRegex.Match(lexeme);
 
         if (!match.Success || match.Value != lexeme)
         {
