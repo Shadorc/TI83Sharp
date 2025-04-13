@@ -114,12 +114,12 @@ public class TiList : List<TiNumber>, IEquatable<TiList>
         return result;
     }
 
-    private static TiList PerformOperation(TiList left, Func<TiNumber, TiNumber> operation)
+    private static TiList PerformOperation(TiList list, Func<TiNumber, TiNumber> operation)
     {
-        var result = new TiList(left.Count);
-        for (int i = 0; i < left.Count; ++i)
+        var result = new TiList(list.Count);
+        for (int i = 0; i < list.Count; ++i)
         {
-            result.Add(operation(left[i]));
+            result.Add(operation(list[i]));
         }
         return result;
     }
@@ -159,9 +159,29 @@ public class TiList : List<TiNumber>, IEquatable<TiList>
         return PerformOperation(left, right, (leftNum, rightNum) => leftNum * rightNum);
     }
 
+    public static TiList operator *(TiList left, TiNumber right)
+    {
+        return PerformOperation(left, (leftNum) => leftNum * right);
+    }
+
+    public static TiList operator *(TiNumber left, TiList right)
+    {
+        return PerformOperation(right, (rightNum) => left * rightNum);
+    }
+
     public static TiList operator /(TiList left, TiList right)
     {
         return PerformOperation(left, right, (leftNum, rightNum) => leftNum / rightNum);
+    }
+
+    public static TiList operator /(TiList left, TiNumber right)
+    {
+        return PerformOperation(left, (leftNum) => leftNum / right);
+    }
+
+    public static TiList operator /(TiNumber left, TiList right)
+    {
+        return PerformOperation(right, (rightNum) => left / rightNum);
     }
 
     public static TiList operator ^(TiList left, TiNumber right)

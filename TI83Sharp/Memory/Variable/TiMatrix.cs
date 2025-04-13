@@ -161,6 +161,19 @@ public class TiMatrix : IEquatable<TiMatrix>
         return result;
     }
 
+    private static TiMatrix PerformOperation(TiMatrix matrix, Func<TiNumber, TiNumber> operation)
+    {
+        var result = new TiMatrix(matrix.Rows, matrix.Cols);
+        for (var i = 0; i < matrix.Rows; i++)
+        {
+            for (var j = 0; j < matrix.Cols; j++)
+            {
+                result[i][j] = operation(matrix[i][j]);
+            }
+        }
+        return result;
+    }
+
     public static TiMatrix operator +(TiMatrix left, TiMatrix right)
     {
         return PerformOperation(left, right, (leftNum, rightNum) => leftNum + rightNum);
@@ -171,39 +184,49 @@ public class TiMatrix : IEquatable<TiMatrix>
         return PerformOperation(left, right, (leftNum, rightNum) => leftNum - rightNum);
     }
 
-    public static TiMatrix operator *(TiMatrix a, TiMatrix b)
+    public static TiMatrix operator *(TiMatrix left, TiMatrix right)
     {
-        if (a.Cols != b.Rows)
+        if (left.Cols != right.Rows)
         {
             throw RuntimeError.InvalidDim;
         }
 
-        var result = new TiMatrix(a.Rows, b.Cols);
-        for (var i = 0; i < a.Rows; i++)
+        var result = new TiMatrix(left.Rows, right.Cols);
+        for (var i = 0; i < left.Rows; i++)
         {
-            for (var j = 0; j < b.Cols; j++)
+            for (var j = 0; j < right.Cols; j++)
             {
-                for (var k = 0; k < a.Cols; k++)
+                for (var k = 0; k < left.Cols; k++)
                 {
-                    result[i][j] += a[i][k] * b[k][j];
+                    result[i][j] += left[i][k] * right[k][j];
                 }
             }
         }
         return result;
     }
 
-    public static TiMatrix operator ^(TiMatrix a, int power)
+    public static TiMatrix operator *(TiMatrix left, TiNumber right)
     {
-        if (a.Rows != a.Cols)
+        return PerformOperation(left, (leftNum) => leftNum * right);
+    }
+
+    public static TiMatrix operator *(TiNumber left, TiMatrix right)
+    {
+        return PerformOperation(right, (rightNum) => left * rightNum);
+    }
+
+    public static TiMatrix operator ^(TiMatrix matrix, int power)
+    {
+        if (matrix.Rows != matrix.Cols)
         {
             throw RuntimeError.InvalidDim;
         }
 
         if (power == 1)
         {
-            return a;
+            return matrix;
         }
 
-        return a * (a ^ (power - 1));
+        return matrix * (matrix ^ (power - 1));
     }
 }

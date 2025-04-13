@@ -173,30 +173,69 @@ public class Interpreter : IExprVisitor<object>, IStmtVisitor
         }
         else if (binary.Op.Type == TokenType.Mult)
         {
-            if (left is TiNumber leftNumber && right is TiNumber rightNumber)
+            if (left is TiNumber leftNumber)
             {
-                return leftNumber * rightNumber;
+                if (right is TiNumber rightNumber)
+                {
+                    return leftNumber * rightNumber;
+                }
+                else if (right is TiList rightList)
+                {
+                    return leftNumber * rightList;
+                }
+                else if (right is TiMatrix rightMatrix)
+                {
+                    return leftNumber * rightMatrix;
+                }
             }
-            else if (left is TiList leftList && right is TiList rightList)
+            else if (left is TiList leftList)
             {
-                return leftList * rightList;
+                if (right is TiList rightList)
+                {
+                    return leftList * rightList;
+                }
+                else if (right is TiNumber rightNumber)
+                {
+                    return leftList * rightNumber;
+                }
             }
-            else if (left is TiMatrix leftMatrix && right is TiMatrix rightMatrix)
+            else if (left is TiMatrix leftMatrix)
             {
-                return leftMatrix * rightMatrix;
+                if (right is TiMatrix rightMatrix)
+                {
+                    return leftMatrix * rightMatrix;
+                }
+                else if (right is TiNumber rightNumber)
+                {
+                    return leftMatrix * rightNumber;
+                }
             }
 
             throw new RuntimeError(binary.Op, RuntimeError.DataType.Message);
         }
         else if (binary.Op.Type == TokenType.Div)
         {
-            if (left is TiNumber leftNumber && right is TiNumber rightNumber)
+            if (left is TiNumber leftNumber)
             {
-                return leftNumber / rightNumber;
+                if (right is TiNumber rightNumber)
+                {
+                    return leftNumber / rightNumber;
+                }
+                else if (right is TiList rightList)
+                {
+                    return leftNumber / rightList;
+                }
             }
-            else if (left is TiList leftList && right is TiList rightList)
+            else if (left is TiList leftList)
             {
-                return leftList / rightList;
+                if (right is TiList rightList)
+                {
+                    return leftList / rightList;
+                }
+                else if (right is TiNumber rightNumber)
+                {
+                    return leftList / rightNumber;
+                }
             }
 
             throw new RuntimeError(binary.Op, RuntimeError.DataType.Message);

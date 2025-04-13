@@ -66,6 +66,42 @@ public partial class OperationTests
         }
 
         [TestMethod]
+        public void TestMatrix_MultiplyNumberRight()
+        {
+            var source =
+                @"
+                :[[1,2][3,4]]→[A]
+                :[A]*2→[B]
+                ";
+            Interpret(source, out _, out var environment);
+            var result = environment.Get<TiMatrix>("[B]");
+            Assert.AreEqual(2, result.Rows);
+            Assert.AreEqual(2, result.Cols);
+            Assert.AreEqual((TiNumber)2, result[0][0]);
+            Assert.AreEqual((TiNumber)4, result[0][1]);
+            Assert.AreEqual((TiNumber)6, result[1][0]);
+            Assert.AreEqual((TiNumber)8, result[1][1]);
+        }
+
+        [TestMethod]
+        public void TestMatrix_MultiplyNumberLeft()
+        {
+            var source =
+                @"
+                :[[1,2][3,4]]→[A]
+                :2*[A]→[B]
+                ";
+            Interpret(source, out _, out var environment);
+            var result = environment.Get<TiMatrix>("[B]");
+            Assert.AreEqual(2, result.Rows);
+            Assert.AreEqual(2, result.Cols);
+            Assert.AreEqual((TiNumber)2, result[0][0]);
+            Assert.AreEqual((TiNumber)4, result[0][1]);
+            Assert.AreEqual((TiNumber)6, result[1][0]);
+            Assert.AreEqual((TiNumber)8, result[1][1]);
+        }
+
+        [TestMethod]
         public void TestMatrix_Pow()
         {
             var source =

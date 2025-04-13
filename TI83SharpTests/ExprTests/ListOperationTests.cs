@@ -96,6 +96,30 @@ public partial class OperationTests
         }
 
         [TestMethod]
+        public void TestList_DivideNumberRight()
+        {
+            var source =
+                @"
+                :{1,2,3}→L₁
+                :L₁/2→L₃
+                ";
+            Interpret(source, out _, out var environment);
+            Assert.AreEqual(new TiList() { 0.5f, 1, 1.5f }, environment.Get<TiList>("L₃"));
+        }
+
+        [TestMethod]
+        public void TestList_DivideNumberLeft()
+        {
+            var source =
+                @"
+                :{1,2,3}→L₁
+                :2/L₁→L₃
+                ";
+            Interpret(source, out _, out var environment);
+            Assert.AreEqual(new TiList() { 2, 1, 2f / 3f }, environment.Get<TiList>("L₃"));
+        }
+
+        [TestMethod]
         public void TestList_DivideList_ErrDivideByZero()
         {
             var source =
@@ -118,6 +142,30 @@ public partial class OperationTests
                 ";
             Interpret(source, out _, out var environment);
             Assert.AreEqual(new TiList() { 2, 10, 9 }, environment.Get<TiList>("L₃"));
+        }
+
+        [TestMethod]
+        public void TestList_MultiplyNumberRight()
+        {
+            var source =
+                @"
+                :{1,2,3}→L₁
+                :L₁*4→L₃
+                ";
+            Interpret(source, out _, out var environment);
+            Assert.AreEqual(new TiList() { 4, 8, 12 }, environment.Get<TiList>("L₃"));
+        }
+
+        [TestMethod]
+        public void TestList_MultiplyNumberLeft()
+        {
+            var source =
+                @"
+                :{1,2,3}→L₁
+                :4*L₁→L₃
+                ";
+            Interpret(source, out _, out var environment);
+            Assert.AreEqual(new TiList() { 4, 8, 12 }, environment.Get<TiList>("L₃"));
         }
 
         [TestMethod]
