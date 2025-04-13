@@ -25,17 +25,6 @@ public class ConsoleOutput : IOutput
         Console.WriteLine(value);
     }
 
-    public void Error(string message)
-    {
-        Console.Error.WriteLine(message);
-    }
-
-    public void Error(Exception exception)
-    {
-        Console.Error.WriteLine(exception);
-
-    }
-
     public void Clear()
     {
         Console.Clear();

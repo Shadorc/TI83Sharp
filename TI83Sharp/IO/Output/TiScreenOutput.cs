@@ -20,16 +20,6 @@ public class TiScreenOutput : IOutput
         _screen.Output(value, x, y);
     }
 
-    public void Error(string message)
-    {
-        Console.Error.WriteLine(message);
-    }
-
-    public void Error(Exception exception)
-    {
-        Error($"{exception.Message}\n{exception.StackTrace}");
-    }
-
     public void Clear()
     {
         _screen.Clear();
