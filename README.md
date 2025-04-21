@@ -1,6 +1,6 @@
 # TI83Sharp
 
-TI-Basic interpreter, compatible with TI-83, TI-83+ and TI-84.
+TI-Basic interpreter, compatible with TI-83 and TI-83+.
 
 I built this interpreter because I had some old TI-BASIC scripts sitting on my computer that I felt like running again but my TI-83+ is buried in a box somewhere. Figured it was a good excuse to learn a few new things.
 
@@ -43,6 +43,10 @@ Currently not supported:
 | **Probability**  | `rand`, `randInt(`                                                                       |
 | **Math**         | `cos(`, `cos⁻¹(`, `cosh(`, `cosh⁻¹(`, `sin(`, `sinh(`, `sin⁻¹(`, `sinh⁻¹(`, `tan(`, `tan⁻¹(`, `tanh(`, `tanh⁻¹(`, `ln(`, `log(`, `√(`, `³√(`, `ᴇ` |
 
+### Possible Improvements
+- Eliminate the `Scanner#NormalizeSource` function, which currently exists to support the `DelVar` optimization and the optional colon at the beginning of new lines. This logic should be integrated directly into the `Scanner` and `Parser` rather than handled by a utility function.  
+- Numbers are currently converted into a custom struct named `TiNumber`, which leads to excessive allocations and garbage generation.
+
 ## Resources
 - [Crafting Interpreters](https://craftinginterpreters.com) by [@munificent](https://github.com/munificent)
 - [Let's Build A Simple Interpreter](https://ruslanspivak.com/lsbasi-part1/) by [@rspivak](https://github.com/rspivak/)
@@ -51,4 +55,4 @@ Currently not supported:
     - Used to get hardware and software specs
 - [TI 84 Calculator Online](https://ti84calc.com/ti84calc)
     - Used to compare my interpreter with a complete emulator
-- [Manual Book](https://www.manualslib.com/manual/325936/Texas-Instruments-Ti-83.html#manual)
+- [Texas Instruments TI-83 Manual Book](https://www.manualslib.com/manual/325936/Texas-Instruments-Ti-83.html#manual)
